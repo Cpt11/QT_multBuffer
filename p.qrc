@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>box.png</file>
+        <file>work.png</file>
+        <file>Carrier.png</file>
+        <file>arrow.png</file>
+        <file>j3.png</file>
+        <file>j2.png</file>
+    </qresource>
+</RCC>
