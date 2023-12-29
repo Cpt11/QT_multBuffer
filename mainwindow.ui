@@ -450,13 +450,13 @@
      <string>PUT</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QLabel" name="chejia">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>280</y>
-      <width>311</width>
-      <height>101</height>
+      <x>-60</x>
+      <y>100</y>
+      <width>81</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
@@ -464,6 +464,22 @@
     </property>
     <property name="pixmap">
      <pixmap resource="p.qrc">:/chejia.png</pixmap>
+    </property>
+   </widget>
+   <widget class="QLabel" name="chelun">
+    <property name="geometry">
+     <rect>
+      <x>-40</x>
+      <y>280</y>
+      <width>51</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="pixmap">
+     <pixmap resource="p.qrc">:/chelun.png</pixmap>
     </property>
    </widget>
   </widget>

@@ -4,42 +4,62 @@
 #include <QPropertyAnimation>
 
 
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow) {
+    ui->setupUi(this);
+    this->setWindowIcon(QIcon("://work.png"));
+
+
+    ui->chejia->hide();
+    QPoint po1 = ui->Worker1->pos();
+    qDebug() << po1.x() << " " << po1.y();
+    QPoint po2 = ui->Worker2->pos();
+    qDebug() << po2.x() << " " << po2.y();
+    QPoint po3 = ui->Worker3->pos();
+    qDebug() << po3.x() << " " << po3.y();
+    QPoint po4 = ui->BB1->pos();
+    qDebug() << po4.x() << " " << po4.y();
+    QPoint po5= ui->BB2->pos();
+    qDebug() << po5.x() << " " << po5.y();
+    QPoint po6 = ui->BB3->pos();
+    qDebug() << po6.x() << " " << po6.y();
+}
+
+
 void Box::set_capacity(int cp) {
     capacity = cp;
 }
 
-void MainWindow::handleShowLabel() {
-    QLabel *label = new QLabel("Box1");
-    QPixmap pixmap;
-    pixmap.load("://box.png");
-    label->setPixmap(pixmap);
-    label->setGeometry(0, 150, 50, 50);
-    label->show();
-}
-
-
-void Worker1::put() {
+void MainWindow::chejia_move() {
+//    ui->chejia->hide();
+//    ui->chejia->move(130,110);
+//    ui->chejia-s
 //    QLabel *label = new QLabel("Box1");
 //    QPixmap pixmap;
-//    pixmap.load("://box.png");
+//    pixmap.load("://chejia.png");
 //    label->setPixmap(pixmap);
 //    label->setGeometry(0, 150, 50, 50);
 //    label->show();
 
-//    // 创建一个 QPropertyAnimation 对象
-//    QPropertyAnimation *animation = new QPropertyAnimation(label, "pos");
+//    QPropertyAnimation *animation = new QPropertyAnimation(ui->chejia, "pos");
 
-//    // 设置动画的起始位置
-//    animation->setStartValue(QPoint(0, 110));
-
-//    // 设置动画的结束位置
-//    animation->setEndValue(QPoint(130, 110));
+    // 设置动画的起始和结束值
+//    animation->setStartValue(QPoint(0, 0));
+//    animation->setEndValue(QPoint(100, 130));
 
 //    // 设置动画的持续时间
-//    animation->setDuration(1000);
+//    animation->setDuration(100000);  // 1000毫秒 = 1秒
 
 //    // 开始动画
 //    animation->start();
+//qDebug() << 1 ;
+}
+
+
+void Worker1::put() {
+    MainWindow mw = new::MainWindow();
+    mw.chejia_move();
 }
 
 void Worker1::run() {
@@ -108,28 +128,6 @@ void Carrier::run()  {
     }
 }
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow) {
-    ui->setupUi(this);
-    this->setWindowIcon(QIcon("://work.png"));
-
-
-
-
-    QPoint po1 = ui->Worker1->pos();
-    qDebug() << po1.x() << " " << po1.y();
-    QPoint po2 = ui->Worker2->pos();
-    qDebug() << po2.x() << " " << po2.y();
-    QPoint po3 = ui->Worker3->pos();
-    qDebug() << po3.x() << " " << po3.y();
-    QPoint po4 = ui->BB1->pos();
-    qDebug() << po4.x() << " " << po4.y();
-    QPoint po5= ui->BB2->pos();
-    qDebug() << po5.x() << " " << po5.y();
-    QPoint po6 = ui->BB3->pos();
-    qDebug() << po6.x() << " " << po6.y();
-}
 
 MainWindow::~MainWindow() {
     delete ui;

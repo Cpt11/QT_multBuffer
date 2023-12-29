@@ -36,8 +36,8 @@ public:
     int get_speed() {
         return speed;
     }
-    void put();
 
+    void put();
 private:
     int speed  = 10;
 };

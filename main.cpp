@@ -13,10 +13,15 @@ int main(int argc, char *argv[])
     Worker2 worker2(&box2);
     Worker3 worker3(&box1, &box2, &box3);
     Carrier carrier(&box3);
-        worker1.start();
-        worker2.start();
-        worker3.start();
-        carrier.start();
+    worker1.put();
+//        worker1.start();
+//        worker2.start();
+//        worker3.start();
+//        carrier.start();
+//        worker1.exit();
+//        worker2.exit();
+//        worker3.exit();
+//        carrier.exit();
 
     w.show();
     return a.exec();
