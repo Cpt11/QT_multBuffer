@@ -1,83 +1,106 @@
-#ifndef MULTBUFFER_H
-#define MULTBUFFER_H
+#ifndef ML
+#define ML
+
 #include <QThread>
 #include <QMutex>
-#include <QWaitCondition>
-//int speed = 10;
-// 定义Box类
+
 class Box {
 public:
-    Box(int capacity) : capacity(capacity), count(0) {}
-    void set_capacity(int cp);
-    int capacity;
+    Box() : count(0) {}
     int count;
+};
+
+class Worker1 : public QThread {
+    Q_OBJECT
+public:
+    Worker1(Box *box) : box(box) {}
+    void run() override {
+        while (true) {
+            mutex.lock();
+            box->count++;
+            emit boxUpdated(box->count);
+            mutex.unlock();
+            msleep(1000);
+        }
+    }
+signals:
+    void boxUpdated(int count);
+private:
+    Box *box;
     QMutex mutex;
-    QWaitCondition notFull;
-    QWaitCondition notEmpty;
-    int speed = 10;
 };
 
-// 定义Worker类
-class Worker : public QThread {
-//    Q_OBJECT
+class Worker2 : public QThread {
+    Q_OBJECT
 public:
-    Worker(Box *box1, Box *box2 = nullptr) : box1(box1), box2(box2) {}
-protected:
-    Box *box1;
-    Box *box2;
-    int speed  = 10;
-};
-
-// 定义Worker1类
-class Worker1 : public Worker {
-public:
-    Worker1(Box *box) : Worker(box) {}
-    void run() override ;
-    int get_speed() {
-        return speed;
+    Worker2(Box *box) : box(box) {}
+    void run() override {
+        while (true) {
+            mutex.lock();
+                box->count++;
+                emit boxUpdated(box->count);
+                mutex.unlock();
+                msleep(1000);
+        }
     }
-
-    void put();
+signals:
+    void boxUpdated(int count);
 private:
-    int speed  = 10;
+    Box *box;
+    QMutex mutex;
 };
 
-// 定义Worker2类
-class Worker2 : public Worker {
+class Worker3 : public QThread {
+    Q_OBJECT
 public:
-    Worker2(Box *box) : Worker(box) {}
-    void run() override ;
-    int get_speed() {
-        return speed;
+    Worker3(Box *box1, Box *box2, Box *box3) : box1(box1), box2(box2), box3(box3) {}
+    void run() override {
+        while (true) {
+            mutex.lock();
+            if (box1->count >= 1 && box2->count >= 2 ) {
+                box1->count--;
+                box2->count -= 2;
+                box3->count++;
+                emit boxUpdated(box3->count);
+                mutex.unlock();
+            } else {
+                // 消费者 wait
+                mutex.unlock();
+                msleep(1000);
+            }
+        }
     }
+signals:
+    void boxUpdated(int count);
 private:
-    int speed  = 10;
+    Box *box1, *box2, *box3;
+    QMutex mutex;
 };
 
-// 定义Worker3类
-class Worker3 : public Worker {
+class Carrier : public QThread {
+     Q_OBJECT
 public:
-    Worker3(Box *box1, Box *box2, Box *box3) : Worker(box1, box2), box3(box3) {}
-    void run() override;
-    int get_speed() {
-        return speed;
+    Carrier(Box *box3) : box3(box3) {}
+    void run() override {
+        while (true) {
+            mutex.lock();
+            if (box3->count > 0) {
+                box3->count--;
+                ccount++;
+                emit boxUpdated(ccount);
+                mutex.unlock();
+            } else {
+                mutex.unlock();
+                msleep(1000);
+            }
+        }
     }
-
+signals:
+    void boxUpdated(int ccount);
 private:
-    int speed  = 10;
+    int ccount = 0;
     Box *box3;
+    QMutex mutex;
 };
 
-// 定义Carrier类
-class Carrier : public Worker {
-public:
-    Carrier(Box *box1) : Worker(box1) {}
-    void run() override ;
-    int get_speed() {
-        return speed;
-    }
-private:
-    int speed  = 10;
-};
-
-#endif // MULTBUFFER_H
+#endif
