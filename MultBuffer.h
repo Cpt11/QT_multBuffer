@@ -4,10 +4,13 @@
 #include <QThread>
 #include <QMutex>
 
+
+
 class Box {
 public:
-    Box() : count(0) {}
+    Box() : count(0), blockedThreads(0) {}
     int count;
+    int blockedThreads;
 };
 
 class Worker1 : public QThread {
@@ -19,13 +22,17 @@ public:
             mutex.lock();
             box->count++;
             emit boxUpdated(box->count);
+
             mutex.unlock();
-            msleep(1000);
+            msleep(sleepTime);
         }
     }
+    void setSleepTime(int time) { sleepTime = time; }
+
 signals:
     void boxUpdated(int count);
 private:
+    int sleepTime = 1000;
     Box *box;
     QMutex mutex;
 };
@@ -40,13 +47,15 @@ public:
                 box->count++;
                 emit boxUpdated(box->count);
                 mutex.unlock();
-                msleep(1000);
+                msleep(sleepTime);
         }
     }
+    void setSleepTime(int time) { sleepTime = time; }
 signals:
     void boxUpdated(int count);
 private:
     Box *box;
+    int sleepTime = 1000;
     QMutex mutex;
 };
 
@@ -61,19 +70,24 @@ public:
                 box1->count--;
                 box2->count -= 2;
                 box3->count++;
+                box3->blockedThreads--;
                 emit boxUpdated(box3->count);
+                emit statusChanged(box3->blockedThreads);
                 mutex.unlock();
             } else {
-                // 消费者 wait
+                msleep(sleepTime);
+                box3->blockedThreads++;
                 mutex.unlock();
-                msleep(1000);
             }
         }
     }
+    void setSleepTime(int time) { sleepTime = time; }
 signals:
+    void statusChanged(int count);
     void boxUpdated(int count);
 private:
     Box *box1, *box2, *box3;
+    int sleepTime = 1000;
     QMutex mutex;
 };
 
@@ -88,16 +102,21 @@ public:
                 box3->count--;
                 ccount++;
                 emit boxUpdated(ccount);
+                msleep(sleepTime);
+                box3->blockedThreads--;
                 mutex.unlock();
             } else {
-                mutex.unlock();
-                msleep(1000);
+                msleep(sleepTime);
+                box3->blockedThreads++;
+                 mutex.unlock();
             }
         }
     }
+    void setSleepTime(int time) { sleepTime = time; }
 signals:
     void boxUpdated(int ccount);
 private:
+    int sleepTime = 1000;
     int ccount = 0;
     Box *box3;
     QMutex mutex;
