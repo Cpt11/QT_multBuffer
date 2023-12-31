@@ -28,7 +28,6 @@ public:
         }
     }
     void setSleepTime(int time) { sleepTime = time; }
-
 signals:
     void boxUpdated(int count);
 private:

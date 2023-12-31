@@ -6,6 +6,7 @@
 #include "MultBuffer.h"
 #include <QSlider>
 #include <QTimer>
+#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -37,7 +38,8 @@ private:
     QSlider *slider2;
     QSlider *slider3;
     QSlider *slider4;
-    QTimer *timer;
+//    QTimer *timer;
+//    QElapsedTimer timer;
 };
 
 #endif // MAINWINDOW_H

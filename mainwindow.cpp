@@ -2,7 +2,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "MultBuffer.h"
-#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -102,9 +101,6 @@ MainWindow::MainWindow(QWidget *parent)
                           "border-radius: 3px;"
                           "}");
     connect(worker3, &Worker3::statusChanged, this, &MainWindow::updateStatus);
-
-
-
     worker1->start();
     worker2->start();
     worker3->start();

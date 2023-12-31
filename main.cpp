@@ -4,7 +4,8 @@
 #include <QTimer>
 #include <QPushButton>
 #include <QObject>
-
+#include <QElapsedTimer>
+#include <QDebug>
 
 int main(int argc, char *argv[])
 {
@@ -13,7 +14,6 @@ int main(int argc, char *argv[])
     w.resize( 700, 500 );
     w.setWindowTitle("Mult_Buffer");
     w.setWindowIcon(QIcon("://work"));
-    // 创建一个定时器
     w.show();
     return a.exec();
 }
