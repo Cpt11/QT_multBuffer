@@ -28,3 +28,6 @@ DISTFILES +=
 
 RESOURCES += \
     p.qrc
+
+RC_FILE += \
+    qtIcon.rc

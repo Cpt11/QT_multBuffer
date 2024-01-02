@@ -101,6 +101,14 @@ MainWindow::MainWindow(QWidget *parent)
                           "border-radius: 3px;"
                           "}");
     connect(worker3, &Worker3::statusChanged, this, &MainWindow::updateStatus);
+    QTimer *timer = new QTimer(this);
+    //启动定时器
+    timer->start(1000);//500毫秒
+
+    connect(ui->pushButton,&QPushButton::clicked,[=](){
+        timer->stop();
+    });
+
     worker1->start();
     worker2->start();
     worker3->start();
@@ -152,3 +160,5 @@ void MainWindow::adjustSleepTime4(int value) {
 void MainWindow::updateStatus(int count) {
     ui->lineEdit->setText(QString::number(count));
 }
+
+
