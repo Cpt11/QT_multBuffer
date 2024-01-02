@@ -7,6 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow) {
     ui->setupUi(this);
+
+    //定义对象  +  组件添加
+
     box1 = new Box();
     box2 = new Box();
     box3 = new Box();
@@ -109,6 +112,8 @@ MainWindow::MainWindow(QWidget *parent)
         timer->stop();
     });
 
+
+    // 启动
     worker1->start();
     worker2->start();
     worker3->start();

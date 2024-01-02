@@ -4,8 +4,6 @@
 #include <QThread>
 #include <QMutex>
 
-
-
 class Box {
 public:
     Box() : count(0), blockedThreads(0) {}
@@ -17,7 +15,7 @@ class Worker1 : public QThread {
     Q_OBJECT
 public:
     Worker1(Box *box) : box(box) {}
-    void run() override {
+    void run() override { // 重写run 函数  qt6多线程 基本都是重载run函数  然后start
         while (true) {
             mutex.lock();
             box->count++;
@@ -27,9 +25,9 @@ public:
             msleep(sleepTime);
         }
     }
-    void setSleepTime(int time) { sleepTime = time; }
+    void setSleepTime(int time) { sleepTime = time; } // 设置运行时间
 signals:
-    void boxUpdated(int count);
+    void boxUpdated(int count);  // 显示数量
 private:
     int sleepTime = 1000;
     Box *box;
@@ -65,16 +63,16 @@ public:
     void run() override {
         while (true) {
             mutex.lock();
-            if (box1->count >= 1 && box2->count >= 2 ) {
+            if (box1->count >= 1 && box2->count >= 2 ) {  // 可以加个容量判断的  当时没注意题目 忘记写上了
                 box1->count--;
                 box2->count -= 2;
                 box3->count++;
                 box3->blockedThreads--;
                 emit boxUpdated(box3->count);
-                emit statusChanged(box3->blockedThreads);
+                emit statusChanged(box3->blockedThreads);  // 统计阻塞进程 & 显示
                 mutex.unlock();
             } else {
-                msleep(sleepTime);
+                msleep(sleepTime);  // 延时是为了显示流程  不然会特别快
                 box3->blockedThreads++;
                 mutex.unlock();
             }
@@ -90,7 +88,7 @@ private:
     QMutex mutex;
 };
 
-class Carrier : public QThread {
+class Carrier : public QThread { // 消费者
      Q_OBJECT
 public:
     Carrier(Box *box3) : box3(box3) {}

@@ -24,7 +24,7 @@ private slots:
     void updateBoxCount4(int count);
     void adjustSleepTime1(int value);
     void adjustSleepTime2(int value);
-    void adjustSleepTime3(int value);
+    void adjustSleepTime3(int value); // 信号与槽
     void adjustSleepTime4(int value);
     void updateStatus(int count);
 private:
@@ -38,7 +38,7 @@ private:
     QSlider *slider2;
     QSlider *slider3;
     QSlider *slider4;
-//    QTimer *timer;
+//    QTimer *timer;  // 暂停实现不出来
 //    QElapsedTimer timer;
 };
 
